@@ -1,5 +1,5 @@
 {
-  "name": "shu",
+  "name": "shu-var",
   "version": "1.0.0",
   "description": "六爻排盤",
   "main": "index.js",
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/creatxrgithub/shu.git"
+    "url": "git+https://github.com/creatxrgithub/shu-var.git"
   },
   "keywords": [
     "六爻",
@@ -17,7 +17,7 @@
   "author": "creatxr",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/creatxrgithub/shu/issues"
+    "url": "https://github.com/creatxrgithub/shu-var/issues"
   },
-  "homepage": "https://github.com/creatxrgithub/shu#readme"
+  "homepage": "https://github.com/creatxrgithub/shu-var#readme"
 }
