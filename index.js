@@ -275,6 +275,7 @@ class Prediction {
 		} else {
 			this.mask = 0b111111 & parseInt(mask,2);
 		}
+		this.memo = memo || '';
 	}
 
 	getInfo() {
@@ -334,6 +335,8 @@ class Prediction {
 		if(this.group===undefined) this.getInfo();
 
 		callback(this.time8);
+		callback();
+		callback(this.memo);
 		callback();
 
 		let outStr = this.oooName+this.oooTu;
