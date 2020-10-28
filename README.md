@@ -122,6 +122,14 @@ async function doPredictionBySpecify(dateObj, original, mask, memo='備注') {
 	result = await doPredictionBySpecify(curDate,'010000','000010','考試');
 	result.getInfo().print(display);
 
+	console.log();
+	for(let inNum=0; inNum<8; inNum++) {
+		let bits = 3;
+		let base = 2;
+		let padChar = '0';
+		console.log(inNum, getSymbolFromNum(inNum).toString(base).padStart(bits,padChar),
+			inNum.toString(base).padStart(bits,padChar), getNumFromSymbol(inNum));
+	}
 
 })();  //end top async()
 
@@ -172,5 +180,14 @@ output:
 卯木官鬼⚋世　午火父母⚋
 巳火父母ㄨ　　辰土兄弟⚊
 未土兄弟⚋　　寅木官鬼⚋
+
+0 000 000 0
+1 111 001 4
+2 011 010 6
+3 101 011 2
+4 001 100 7
+5 110 101 3
+6 010 110 5
+7 100 111 1
 
 ```
