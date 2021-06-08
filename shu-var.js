@@ -281,7 +281,7 @@ class Prediction {
 	getInfo() {
 		if((typeof this.time8)==='string') {
 			//取旬空
-			this.time8 += ' ' + getXunkong(this.time8.match(new RegExp(`[${tiangan}][${dizhi}]日`,'g')));
+			this.time8 += ' ' + getXunkong(this.time8.match(new RegExp(`[${tiangan}][${dizhi}]日`,'g')).toString());
 		}
 
 		[this.group,this.groupWuxing,this.offsetInGroup] = getGroup(this.original);
