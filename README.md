@@ -36,6 +36,24 @@ function display(arg) {
 	}
 }
 
+class LogToStr {
+	constructor() {
+	}
+
+	static target = '';
+
+	static clear() {
+		LogToStr.target = '';
+	}
+
+	static log(arg) {
+		if(arg!=null) {
+			LogToStr.target += arg + '\n';
+		} else {
+			LogToStr.target += '\n';
+		}
+	}
+}
 
 /**
  * 由數取象
@@ -120,7 +138,10 @@ async function doPredictionBySpecify(dateObj, original, mask, memo='備注') {
 
 	console.log('>>----------');
 	result = await doPredictionBySpecify(curDate,'010000','000010','考試');
-	result.getInfo().print(display);
+	//result.getInfo().print(display);
+	LogToStr.clear();
+	result.getInfo().print(LogToStr.log);
+	console.log(LogToStr.target);
 
 	console.log();
 	for(let inNum=0; inNum<8; inNum++) {
@@ -139,24 +160,24 @@ output:
 
 ```
 >>----------
-北京時間 2021-06-08T12:22:58+08:00
-甲午月丁亥日 午未空
+北京時間 2020-10-28T06:58:05+08:00
+丙戌月甲辰日 戌亥空
 
-[ '以時間取數起卦' ]
+[ '備注' ]
 
-澤天夬䷪　之　雷天大壯䷡
+水澤節䷻　之　水雷屯䷂
 
-未土兄弟⚋　　戌土兄弟⚋
-酉金子孫○世　申金子孫⚋
-亥水妻財⚊　　午火父母⚊
-辰土兄弟⚊　　辰土兄弟⚊
-寅木官鬼⚊應　寅木官鬼⚊
-子水妻財⚊　　子水妻財⚊
+子水兄弟⚋　　子水兄弟⚋
+戌土官鬼⚊　　戌土官鬼⚊
+申金父母⚋應　申金父母⚋
+丑土官鬼⚋　　辰土官鬼⚋
+卯木子孫○　　寅木子孫⚋
+巳火妻財⚊世　子水兄弟⚊
 >>----------
 北京時間 2020-05-05T00:00:00+08:00
-辛巳月戊申日 寅卯空
+辛巳月戊申日 戌亥空
 
-[ '指定時間及卦象與變爻起卦' ]
+[ '備注' ]
 
 雷澤歸妹䷵　之　澤天夬䷪
 
@@ -167,8 +188,8 @@ output:
 卯木妻財⚊　　寅木妻財⚊
 巳火官鬼⚊　　子水子孫⚊
 >>----------
-北京時間 2021-06-08T12:22:58+08:00
-甲午月丁亥日 午未空
+北京時間 2020-10-28T06:58:05+08:00
+丙戌月甲辰日 戌亥空
 
 [ '考試' ]
 

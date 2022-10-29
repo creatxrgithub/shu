@@ -1,6 +1,6 @@
 {
   "name": "shu-var",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "六爻排盤",
   "main": "shu-var.js",
   "scripts": {
@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/creatxrgithub/shu-var/issues"
   },
-  "homepage": "https://github.com/creatxrgithub/shu-var#readme"
+  "homepage": "https://github.com/creatxrgithub/shu-var#readme",
+  "devDependencies": {
+    "@types/node": "^18.11.7"
+  }
 }

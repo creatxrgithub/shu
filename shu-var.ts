@@ -1,4 +1,10 @@
-'use strict';
+/**
+ * error TS2584: Cannot find name 'console'.
+ * npm install @types/node --save-dev
+ *
+ * error TS2550: Property 'isInteger' does not exist on type 'NumberConstructor'.
+ * These are part of the es2015 library. make sure you have --lib es2015
+ */
 
 const bagua = '乾兌離震巽坎艮坤';
 const tu2 = '⚊⚋○ㄨ';
@@ -68,7 +74,7 @@ const nayin = [
  * 輸入：卦數値，變爻
  * 輸出：爻變後的卦數値
  */
-function changeBits(bitsInput,bitsMask) {
+function changeBits(bitsInput: number, bitsMask: number): number {
 	let bitsA = (Number.MAX_SAFE_INTEGER^bitsMask)&bitsInput;
 	let bitsB = (Number.MAX_SAFE_INTEGER^bitsInput)&bitsMask;
 	return bitsA^bitsB;
@@ -78,7 +84,7 @@ function changeBits(bitsInput,bitsMask) {
  * 輸入：數象名皆可
  * 輸出：卦信息第一字段指鍼
  */
-function getOffset64(value) {
+function getOffset64(value: number): number {
 	return Math.floor(info64.indexOf(value)/info64Width) * info64Width;
 }
 
@@ -92,7 +98,7 @@ function getOffset64(value) {
  * 卽：let [a,b] = [val1,val2]; let {x,y} = {x:val1,y:val2};
  * 同樣的，析構賦値可以嵌套模擬
  */
-function getGroup(value) {
+function getGroup(value:number): any {
 	for(let i=0; i<8; i++) {
 		let index = base8mask.indexOf(base8bits[i]^value);
 		if(index!==-1) {
@@ -106,7 +112,7 @@ function getGroup(value) {
  * 輸出：用神（卽輸入），我生，我克，克我（忌神），生我（元神）
  * 我克成仇。仇神，生忌神克元神，也許這就是反克的原理。木，生木者水，克木者金，克水生金者土，應是木克土，卻成土爲仇。
  */
-function getInfoWuxing(value) {
+function getInfoWuxing(value:string): string[] {
 	let index = infoWuxing.indexOf(value);
 	return [
 		value,
@@ -124,109 +130,108 @@ function getInfoWuxing(value) {
 
 	其實查表法最簡單，編程更應查表。上述要領是爲了無表助記。六爻卜易不用天干，可省。
 */
-function getDetail6(bits6) {
+function getDetail6(bits6:number): any {
 	let ooo = 0b111111 & bits6;  //不檢查輸入錯誤，只取最低六位二進制値
 	let info6 = [];
 	switch(0b111000 & ooo) {  //外卦
-		case 0b111000: {
+		case 0b111000:
 			for(let i=2,d=infoDizhiWidth*6; i>=0; i--,d+=infoDizhiWidth*2) {
 				info6[i] = '壬';
 				info6[i] += infoDizhi[d%(infoDizhiWidth*12)];
 			}
-		} break;
-		case 0b100000: {
+			break;
+		case 0b100000:
 			for(let i=2,d=infoDizhiWidth*10; i>=0; i--,d+=infoDizhiWidth*2) {
 				info6[i] = '丙';
 				info6[i] += infoDizhi[d%(infoDizhiWidth*12)];
 			}
-		} break;
-		case 0b010000: {
+			break;
+		case 0b010000:
 			for(let i=2,d=infoDizhiWidth*8; i>=0; i--,d+=infoDizhiWidth*2) {
 				info6[i] = '戊';
 				info6[i] += infoDizhi[d%(infoDizhiWidth*12)];
 			}
-		} break;
-		case 0b001000: {
+			break;
+		case 0b001000:
 			for(let i=2,d=infoDizhiWidth*6; i>=0; i--,d+=infoDizhiWidth*2) {
 				info6[i] = '庚';
 				info6[i] += infoDizhi[d%(infoDizhiWidth*12)];
 			}
-		} break;
-		case 0b000000: {
+			break;
+		case 0b000000:
 			for(let i=2,d=infoDizhiWidth*13; i>=0; i--,d+=infoDizhiWidth*10) {
 				info6[i] = '癸';
 				info6[i] += infoDizhi[d%(infoDizhiWidth*12)];
 			}
-		} break;
-		case 0b011000: {
+			break;
+		case 0b011000:
 			for(let i=2,d=infoDizhiWidth*11; i>=0; i--,d+=infoDizhiWidth*10) {
 				info6[i] = '丁';
 				info6[i] += infoDizhi[d%(infoDizhiWidth*12)];
 			}
-		} break;
-		case 0b101000: {
+			break;
+		case 0b101000:
 			for(let i=2,d=infoDizhiWidth*9; i>=0; i--,d+=infoDizhiWidth*10) {
 				info6[i] = '己';
 				info6[i] += infoDizhi[d%(infoDizhiWidth*12)];
 			}
-		} break;
-		case 0b110000: {
+			break;
+		case 0b110000:
 			for(let i=2,d=infoDizhiWidth*7; i>=0; i--,d+=infoDizhiWidth*10) {
 				info6[i] = '辛';
 				info6[i] += infoDizhi[d%(infoDizhiWidth*12)];
 			}
-		} break;
+			break;
 	}
 
 	switch(0b000111 & ooo) {  //內卦
-		case 0b111: {
+		case 0b111:
 			for(let i=5,d=0; i>=3; i--,d+=infoDizhiWidth*2) {
 				info6[i] = '甲';
 				info6[i] += infoDizhi[d%(infoDizhiWidth*12)];
 			}
-		} break;
-		case 0b100: {
+			break;
+		case 0b100:
 			for(let i=5,d=infoDizhiWidth*4; i>=3; i--,d+=infoDizhiWidth*2) {
 				info6[i] = '丙';
 				info6[i] += infoDizhi[d%(infoDizhiWidth*12)];
 			}
-		} break;
-		case 0b010: {
+			break;
+		case 0b010:
 			for(let i=5,d=infoDizhiWidth*2; i>=3; i--,d+=infoDizhiWidth*2) {
 				info6[i] = '戊';
 				info6[i] += infoDizhi[d%(infoDizhiWidth*12)];
 			}
-		} break;
-		case 0b001: {
+			break;
+		case 0b001:
 			for(let i=5,d=0; i>=3; i--,d+=infoDizhiWidth*2) {
 				info6[i] = '庚';
 				info6[i] += infoDizhi[d%(infoDizhiWidth*12)];
 			}
-		} break;
-		case 0b000: {
+			break;
+		case 0b000:
 			for(let i=5,d=infoDizhiWidth*7; i>=3; i--,d+=infoDizhiWidth*10) {
 				info6[i] = '乙';
 				info6[i] += infoDizhi[d%(infoDizhiWidth*12)];
 			}
-		} break;
-		case 0b011: {
+			break;
+		case 0b011:
 			for(let i=5,d=infoDizhiWidth*5; i>=3; i--,d+=infoDizhiWidth*10) {
 				info6[i] = '丁';
 				info6[i] += infoDizhi[d%(infoDizhiWidth*12)];
-			}
-		} break;
-		case 0b101: {
+			} break;
+		case 0b101:
 			for(let i=5,d=infoDizhiWidth*3; i>=3; i--,d+=infoDizhiWidth*10) {
 				info6[i] = '己';
 				info6[i] += infoDizhi[d%(infoDizhiWidth*12)];
 			}
-		} break;
-		case 0b110: {
+			break;
+		case 0b110:
 			for(let i=5,d=infoDizhiWidth; i>=3; i--,d+=infoDizhiWidth*10) {
 				info6[i] = '辛';
 				info6[i] += infoDizhi[d%(infoDizhiWidth*12)];
 			}
-		} break;
+			break;
 	}
 
 	for(let i=0; i<info6.length; i++) {
@@ -249,8 +254,8 @@ function getDetail6(bits6) {
  * 干支配是陽干配陽支，陰干配陰支，而且是完全匹配，干支差若得到奇數，則說明輸入的干支有誤
  * 由于數組是從零開始，所以上述公式改爲（地支+11-天干）%12-1
  */
-function getXunkong(value) {
-	if(value===null) return '';
+function getXunkong(value:string): string {
+	if(value==null) return '';
 	let resultSub = dizhi.indexOf(value[1])-tiangan.indexOf(value[0]);
 	if((resultSub%2)!==0) return '干支有誤';
 
@@ -264,8 +269,25 @@ function getXunkong(value) {
  * 爲減少外部依賴，時間傳入干支紀年月日時，最多八字最少六字，卽年月日的干支
  */
 class Prediction {
+	time8: any;
+	original: number;
+	mask: number;
+	memo: any;
+	oooShu: any;
+	oooTu: any;
+	oooName: any;
+	ooo6: any;
+	oooVarShu: any;
+	oooVarTu: any;
+	oooVarName: any;
+	oooVar6: any;
+	group: any;
+	groupWuxing: string;
+	offsetInGroup: number = -1;
+	shi: number = -1;
+	ying: number = -1;
 
-	constructor(time8,original,mask,...memo) {
+	constructor(time8: string, original: any, mask:any ,...memo:string[]) {
 		this.time8 = time8;
 		if(Number.isInteger(original)) {
 			this.original = 0b111111 & original;
@@ -326,7 +348,7 @@ class Prediction {
 		return this;
 	}
 
-	print(...args) {
+	print(...args:any) {
 		let callback = console.log;
 		if(args.length===1) {
 			if(typeof args[args.length-1] === 'function') {
@@ -380,5 +402,5 @@ class Prediction {
 	}
 }
 
-module.exports = Prediction;
-//export {Prediction};
+export = Prediction;
+//export default Prediction;
