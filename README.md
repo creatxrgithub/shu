@@ -55,41 +55,47 @@ class LogToStr {
 	}
 }
 
+
+/**
+ * 應當以 0 爲起點（坤）作減法，得到負數（或補碼，加上「進制的位數的乘方」取同餘）表示。
+ * 這樣才符合「損之又損，以至於無」。
+ * 而且，這樣象數之間無需轉化（左起爲低位），五行分布更規律。
+ * 左起爲高位的數值，是相對應的負數的補碼。如果象也以左起爲高位，象卻是數值的鏡像，卽 reverse 值。見下面的兩個函數：
+ */
+
 /**
  * 由數取象
  * 這兩個函數只爲研究
  * 查表法最簡單
  */
-function getSymbolFromNum (value, bits=3) {
-	let base=2;
+function getSymbolFromNum (value, base=2, bits=3) {
 	let padChar  = '0';
 	let modVal = Math.pow(base,bits);
-	let mask = modVal-1;
-	let n = parseInt(value,10);
-	n = (n-1+modVal)%modVal;
-	//不適合三進制的太玄經，或因這一步算法是二進制的，進制或可以是２的倍數
-	n = n^mask;
-	n = parseInt(n.toString(base).padStart(bits,padChar).split('').reverse().join(''),base);
-	return n;
+	let n = value;
+	if (n<0) {
+		n = (n + modVal) % modVal;
+	}
+	let realSymbol = n.toString(base).padStart(bits, padChar);
+	//左起爲高位的象，實爲數的鏡像。
+	let humanSymbol = realSymbol.split('').reverse().join('');
+	return humanSymbol;
 }
 
 /**
  * 由象取數
  * 這兩個函數只爲研究
  * 查表法最簡單
+ * @humanSymbol 左起爲高位
  */
-function getNumFromSymbol (value, bits=3) {
-	let base=2;
+function getNumFromSymbol (humanSymbol, base=2, bits=3) {
 	let padChar  = '0';
 	let modVal = Math.pow(base,bits);
-	let mask = modVal-1;
-	let n = parseInt(value.toString(base).padStart(bits,padChar).split('').reverse().join(''),base);
-	//不適合三進制的太玄經，或因這一步算法是二進制的，進制或可以是２的倍數
-	n = n^mask;
-	n = (n+1+modVal)%modVal;
-	n = parseInt(n,10);
+	let realSymbol = humanSymbol.split('').reverse().join('');
+	let n = (parseInt(realSymbol, base) - modVal) % modVal;
+	//返回零或負數
 	return n;
 }
+
 
 
 /**
@@ -144,13 +150,18 @@ async function doPredictionBySpecify(dateObj, original, mask, memo='備注') {
 	console.log(LogToStr.target);
 
 	console.log();
-	for(let inNum=0; inNum<8; inNum++) {
-		let bits = 3;
-		let base = 2;
-		let padChar = '0';
-		console.log(inNum, getSymbolFromNum(inNum).toString(base).padStart(bits,padChar),
-			inNum.toString(base).padStart(bits,padChar), getNumFromSymbol(inNum));
+	let base = 2;
+	let bits = 3;
+	let modVal = Math.pow(base, bits);
+	for (let i=0; i>-modVal; i--) {
+		//let shuStr = ((i+modVal)%modVal).toString(base).padStart(bits,'0');
+		let shuStr = getSymbolFromNum(i, base, bits);
+		console.log(shuStr);
+		let n = getNumFromSymbol(shuStr, base, bits);
+		console.log(n, (n+modVal)%modVal, ((n+modVal)%modVal).toString(base).padStart(bits,'0'));  //
 	}
+
+
 
 })();  //end top async()
 
@@ -202,13 +213,15 @@ output:
 巳火父母ㄨ　　辰土兄弟⚊
 未土兄弟⚋　　寅木官鬼⚋
 
-0 000 000 0
-1 111 001 4
-2 011 010 6
-3 101 011 2
-4 001 100 7
-5 110 101 3
-6 010 110 5
-7 100 111 1
+000 -0 0 000
+111 -1 7 111
+011 -2 6 110
+101 -3 5 101
+001 -4 4 100
+110 -5 3 011
+010 -6 2 010
+100 -7 1 001
+
+
 
 ```
