@@ -1,5 +1,21 @@
 # 六爻裝卦
 
+經研究發現：不宜以左起爲高位記錄爻象，宜以左起爲低位記錄爻象。應當以零（坤）爲起點作減法，得到負數，其補碼（加上「進制的位數的乘方」取同餘）卽其象。故將停止更新 shu-var 啟用 shu-var-negative 以左起爲低位記錄爻象。
+
+比較：
+
+左起高位的數　左起高位的象　左起低位的數（顯然更有規律）　左起低位的數的補碼　左起低位的象
+
+坤　0 000 -0 0 000
+乾　7 111 -1 7 111
+兌　3 011 -2 6 110
+離　5 101 -3 5 101
+震　1 001 -4 4 100
+巽　6 110 -5 3 011
+坎　2 010 -6 2 010
+艮　4 100 -7 1 001
+
+
 ```
 npm install shu-var
 npm install chinese-calendar-indexer
@@ -156,9 +172,8 @@ async function doPredictionBySpecify(dateObj, original, mask, memo='備注') {
 	for (let i=0; i>-modVal; i--) {
 		//let shuStr = ((i+modVal)%modVal).toString(base).padStart(bits,'0');
 		let shuStr = getSymbolFromNum(i, base, bits);
-		console.log(shuStr);
 		let n = getNumFromSymbol(shuStr, base, bits);
-		console.log(n, (n+modVal)%modVal, ((n+modVal)%modVal).toString(base).padStart(bits,'0'));  //
+		console.log(parseInt(shuStr,2), shuStr, n, (n+modVal)%modVal, ((n+modVal)%modVal).toString(base).padStart(bits,'0'));
 	}
 
 
@@ -213,14 +228,15 @@ output:
 巳火父母ㄨ　　辰土兄弟⚊
 未土兄弟⚋　　寅木官鬼⚋
 
-000 -0 0 000
-111 -1 7 111
-011 -2 6 110
-101 -3 5 101
-001 -4 4 100
-110 -5 3 011
-010 -6 2 010
-100 -7 1 001
+0 000 -0 0 000
+7 111 -1 7 111
+3 011 -2 6 110
+5 101 -3 5 101
+1 001 -4 4 100
+6 110 -5 3 011
+2 010 -6 2 010
+4 100 -7 1 001
+
 
 
 
